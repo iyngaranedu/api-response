@@ -17,11 +17,7 @@
     "autoload": {
         "psr-4": {
             "Iyngaran\\ApiResponse\\": "src/"
-        },
-        "classmap": [
-            "database/seeds",
-            "database/factories"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {
