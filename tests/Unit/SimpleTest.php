@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Iyngaran\ApiResponse\Tests\Unit\Domain\RealEstate;
+namespace Iyngaran\ApiResponse\Tests\Unit;
 
 
 use Illuminate\Http\Resources\Json\JsonResource;
