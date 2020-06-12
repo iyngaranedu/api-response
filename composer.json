@@ -1,0 +1,31 @@
+{
+    "name": "iyngaran/api-response",
+    "description": "A simple API response package to manage responses for RESTful Web services",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Iyngaran Iyathurai",
+            "email": "dev@iyngaran.info"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "require-dev": {
+        "orchestra/testbench": "^6.0@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Iyngaran\\ApiResponse\\": "src/"
+        },
+        "classmap": [
+            "database/seeds",
+            "database/factories"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Iyngaran\\ApiResponse\\Tests\\": "tests/"
+        }
+    }
+}
