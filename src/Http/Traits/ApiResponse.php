@@ -61,6 +61,16 @@ trait ApiResponse
     {
         return $this->error_response('Resource Not Found', $this->_code_not_found, $detail, [], Response::HTTP_NOT_FOUND);
     }
+    
+    /**
+     * Generates a Response with a 401 Unauthorized HTTP header and a given message.
+     *
+     * @return Response
+     */
+    protected function unauthorizedResponse(JsonResource $jsonResource, $statusCode = Response::HTTP_UNAUTHORIZED)
+    {
+        return $this->error_response("An unauthorised attempt", $this->_code_unauthorized, $jsonResource['message'], [], $statusCode);
+    }
 
     /**
      * Generates a Response with a 404 HTTP header and a given message.
