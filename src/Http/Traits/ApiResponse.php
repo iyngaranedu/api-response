@@ -87,4 +87,9 @@ trait ApiResponse
     private function validation_error_response($title, $code, $detail, array $invalidParams) {
         return $this->error_response($title, $code, $detail, ['invalid-params' => $invalidParams]);
     }
+
+    protected function unauthorizedResponse(JsonResource $jsonResource)
+    {
+        return $this->responseWithItem($jsonResource, Response::HTTP_UNAUTHORIZED);
+    }
 }
