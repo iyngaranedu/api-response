@@ -16,11 +16,12 @@ trait ApiResponse
     private $_code_internal_error = 'INTERNAL_ERROR';
     private $_code_unauthorized = 'UNAUTHORIZED_ACCESS';
     private $_code_forbidden = 'FORBIDDEN';
+    private $_code_validation_error = 'BAD_REQUEST';
 
     /**
      * Resource was successfully created
      *
-     * @param $data
+     * @param  $data
      * @return \Illuminate\Http\JsonResponse
      */
     protected function createdResponse(JsonResource $jsonResource)
@@ -59,7 +60,13 @@ trait ApiResponse
      */
     protected function responseResourceNotFound($detail = 'Resource Not Found')
     {
-        return $this->error_response('Resource Not Found', $this->_code_not_found, $detail, [], Response::HTTP_NOT_FOUND);
+        return $this->error_response(
+            'Resource Not Found',
+            $this->_code_not_found,
+            $detail,
+            [],
+            Response::HTTP_NOT_FOUND
+        );
     }
 
     /**
@@ -69,27 +76,44 @@ trait ApiResponse
      */
     protected function responseWithValidationError($title, $detail, array $errors = [])
     {
-        return $this->error_response($title,$this->_code_wrong_args, $detail, $errors, Response::HTTP_NOT_FOUND);
+        return $this->error_response($title, $this->_code_wrong_args, $detail, $errors, Response::HTTP_NOT_FOUND);
     }
 
-    private function error_response($title, $code, $detail, array $errors = [], $statusCode = Response::HTTP_BAD_REQUEST) {
-        return response()->json([
-            'errors' => [
-                'id' => 'V_' . Carbon::now()->timestamp,
-                'title' => $title,
-                'code' => $code,
-                'detail' => $detail,
-                'meta' => $errors
-            ]
-        ], $statusCode);
+    private function error_response(
+        $title,
+        $code,
+        $detail,
+        array $errors = [],
+        $statusCode = Response::HTTP_BAD_REQUEST
+    ) {
+        return response()->json(
+            [
+                'errors' => [
+                    'id' => 'V_' . Carbon::now()->timestamp,
+                    'title' => $title,
+                    'code' => $code,
+                    'detail' => $detail,
+                    'meta' => $errors
+                ]
+            ],
+            $statusCode
+        );
     }
 
-    private function validation_error_response($title, $code, $detail, array $invalidParams) {
-        return $this->error_response($title, $code, $detail, ['invalid-params' => $invalidParams]);
-    }
-
-    protected function unauthorizedResponse(JsonResource $jsonResource)
+    protected function unauthorizedAccess()
     {
-        return $this->responseWithItem($jsonResource, Response::HTTP_UNAUTHORIZED);
+        return $this->error_response(
+            "UNAUTHORIZED ACCESS",
+            $this->_code_unauthorized,
+            "",
+            [],
+            Response::HTTP_UNAUTHORIZED
+        );
+    }
+
+
+    protected function validationError($message = null, $errors = [])
+    {
+        return $this->error_response("BAD REQUEST", $this->_code_validation_error, $message, $errors);
     }
 }
